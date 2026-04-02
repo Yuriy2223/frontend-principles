@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Шпаргалка — Frontend Принципи</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="cheatsheet.css" />
+  </head>
+  <body data-current="cheatsheet">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="toast" id="toast">✓ Скопійовано</div>
+
+    <div class="shell">
+      <div class="hero">
+        <div class="eyebrow">Шпаргалка</div>
+        <h1 class="hero-title">Всі принципи<br /><em>на одній сторінці</em></h1>
+        <div class="hero-row">
+          <p class="hero-desc">
+            Швидкий довідник для Code Review. Кожен принцип — одне речення, одне
+            правило, один тест.
+          </p>
+          <div class="read-time">
+            <span class="read-time-dot"></span><span id="read-time-val">—</span>
+          </div>
+
+          <button class="print-btn" onclick="window.print()">
+            🖨 Роздрукувати
+          </button>
+        </div>
+      </div>
+
+      <!-- FILTER -->
+      <div class="filter-bar">
+        <button
+          class="filter-btn active"
+          style="--fb-color: #e8eaf0"
+          data-filter="all"
+          onclick="filter('all', this)"
+        >
+          Всі
+        </button>
+        <button
+          class="filter-btn"
+          style="--fb-color: #00d4ff"
+          data-filter="solid"
+          onclick="filter('solid', this)"
+        >
+          SOLID
+        </button>
+        <button
+          class="filter-btn"
+          style="--fb-color: #f59e0b"
+          data-filter="trio"
+          onclick="filter('trio', this)"
+        >
+          DRY · KISS · YAGNI
+        </button>
+        <button
+          class="filter-btn"
+          style="--fb-color: #ef4444"
+          data-filter="antipattern"
+          onclick="filter('antipattern', this)"
+        >
+          Антипатерни
+        </button>
+        <button
+          class="filter-btn"
+          style="--fb-color: #f472b6"
+          data-filter="meta"
+          onclick="filter('meta', this)"
+        >
+          Мета
+        </button>
+      </div>
+
+      <!-- QUICK REF TABLE -->
+      <div class="qref-wrap" id="sec-table" data-group="all">
+        <table>
+          <thead>
+            <tr>
+              <th>Принцип</th>
+              <th>Запитай себе</th>
+              <th>Якщо «так» — що робити</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="td-name" style="color: #00d4ff">SRP</div></td>
+              <td>
+                <div class="td-q">
+                  Чи можу описати це одним реченням без «та»?
+                </div>
+              </td>
+              <td>
+                <div class="td-a">
+                  <strong>Ні</strong> → ділити на менші одиниці
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="td-name" style="color: #7c3aed">OCP</div></td>
+              <td>
+                <div class="td-q">
+                  Чи треба лізти в старий код для нової фічі?
+                </div>
+              </td>
+              <td>
+                <div class="td-a">
+                  <strong>Так</strong> → виноси стратегію в конфіг/словник
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="td-name" style="color: #f59e0b">LSP</div></td>
+              <td>
+                <div class="td-q">
+                  Чи може нащадок замінити батька без змін у споживачі?
+                </div>
+              </td>
+              <td>
+                <div class="td-a">
+                  <strong>Ні</strong> → зберігай контракт через
+                  <code>...props</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="td-name" style="color: #10b981">ISP</div></td>
+              <td>
+                <div class="td-q">
+                  Чи використовує компонент всі отримані пропси/поля?
+                </div>
+              </td>
+              <td>
+                <div class="td-a">
+                  <strong>Ні</strong> → передай лише те що потрібно
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="td-name" style="color: #ef4444">DIP</div></td>
+              <td>
+                <div class="td-q">
+                  Якщо замінити fetch/axios — скільки файлів бізнес-логіки
+                  зміниться?
+                </div>
+              </td>
+              <td>
+                <div class="td-a">
+                  <strong>> 0</strong> → передавай транспорт як залежність
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="td-name" style="color: #00d4ff">DRY</div></td>
+              <td><div class="td-q">Чи є ця логіка ще десь у коді?</div></td>
+              <td>
+                <div class="td-a">
+                  <strong>Так</strong> → виноси в утиліту/хук
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="td-name" style="color: #7c3aed">KISS</div></td>
+              <td>
+                <div class="td-q">Чи зрозуміє це джуніор за 15 хвилин?</div>
+              </td>
+              <td>
+                <div class="td-a">
+                  <strong>Ні</strong> → спрощуй або документуй
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="td-name" style="color: #f59e0b">YAGNI</div></td>
+              <td>
+                <div class="td-q">Чи використовується цей код прямо зараз?</div>
+              </td>
+              <td>
+                <div class="td-a">
+                  <strong>Ні</strong> → видаляй. Git зберігає все
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SOLID SECTION -->
+      <div class="cs-section" data-group="solid">
+        <div class="cs-section-header">
+          <div class="cs-section-title">SOLID</div>
+          <div class="cs-section-line"></div>
+          <div class="cs-section-tag" style="--st-color: #00d4ff">
+            5 принципів
+          </div>
+        </div>
+        <div class="terms-grid">
+          <div class="term" style="--tc-color: #00d4ff" data-group="solid">
+            <div class="term-top">
+              <div class="term-acronym">S</div>
+              <div class="term-badge">SRP</div>
+            </div>
+            <div class="term-full">Single Responsibility Principle</div>
+            <div class="term-one">Один модуль — одна причина для зміни.</div>
+            <div class="term-rule">
+              Висока зв'язність (Cohesion) всередині модуля — добре. Високе
+              зачеплення (Coupling) між модулями — погано.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи можеш описати що
+              робить цей хук без сполучника «та»?
+            </div>
+            <a href="index.html#solid" class="term-link"
+              >Детальніше в гайді →</a
+            >
+          </div>
+
+          <div class="term" style="--tc-color: #7c3aed" data-group="solid">
+            <div class="term-top">
+              <div class="term-acronym">O</div>
+              <div class="term-badge">OCP</div>
+            </div>
+            <div class="term-full">Open/Closed Principle</div>
+            <div class="term-one">
+              Відкритий для розширення. Закритий для модифікації.
+            </div>
+            <div class="term-rule">
+              Нова фіча = новий рядок у конфізі, не нова умова в існуючій
+              функції. if/else chain — майже завжди порушення OCP.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи треба змінювати цей
+              файл для кожної нової ролі/типу/каналу?
+            </div>
+            <a href="index.html#solid" class="term-link"
+              >Детальніше в гайді →</a
+            >
+          </div>
+
+          <div class="term" style="--tc-color: #f59e0b" data-group="solid">
+            <div class="term-top">
+              <div class="term-acronym">L</div>
+              <div class="term-badge">LSP</div>
+            </div>
+            <div class="term-full">Liskov Substitution Principle</div>
+            <div class="term-one">
+              Підклас замінний батьківським без змін у споживачі.
+            </div>
+            <div class="term-rule">
+              Якщо компонент-нащадок змінює контракт (прибирає onClick, додає
+              обов'язкові нові пропси) — це LSP. Рятує <code>...props</code>.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи може споживач
+              замінити Button на IconButton без змін у своєму коді?
+            </div>
+            <a href="index.html#solid" class="term-link"
+              >Детальніше в гайді →</a
+            >
+          </div>
+
+          <div class="term" style="--tc-color: #10b981" data-group="solid">
+            <div class="term-top">
+              <div class="term-acronym">I</div>
+              <div class="term-badge">ISP</div>
+            </div>
+            <div class="term-full">Interface Segregation Principle</div>
+            <div class="term-one">
+              Краще багато маленьких інтерфейсів, ніж один товстий.
+            </div>
+            <div class="term-rule">
+              Компонент не повинен залежати від полів які він не використовує.
+              Замість <code>user: User</code> передай лише
+              <code>src: string</code>.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи використовує
+              компонент всі поля отриманого об'єкта?
+            </div>
+            <a href="index.html#solid" class="term-link"
+              >Детальніше в гайді →</a
+            >
+          </div>
+
+          <div class="term" style="--tc-color: #ef4444" data-group="solid">
+            <div class="term-top">
+              <div class="term-acronym">D</div>
+              <div class="term-badge">DIP</div>
+            </div>
+            <div class="term-full">Dependency Inversion Principle</div>
+            <div class="term-one">
+              Залежи від абстракцій, а не від конкретних реалізацій.
+            </div>
+            <div class="term-rule">
+              Не імпортуй <code>axios</code> або <code>localStorage</code> прямо
+              в бізнес-логіку. Передавай http-клієнт як параметр — заміна без
+              змін у логіці.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Якщо замінити fetch на
+              axios — скільки файлів бізнес-логіки зміниться?
+            </div>
+            <a href="index.html#solid" class="term-link"
+              >Детальніше в гайді →</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- TRIO SECTION -->
+      <div class="cs-section" data-group="trio">
+        <div class="cs-section-header">
+          <div class="cs-section-title">Тріада здорового глузду</div>
+          <div class="cs-section-line"></div>
+          <div class="cs-section-tag" style="--st-color: #f59e0b">
+            DRY · KISS · YAGNI
+          </div>
+        </div>
+        <div class="terms-grid">
+          <div class="term" style="--tc-color: #00d4ff" data-group="trio">
+            <div class="term-top">
+              <div class="term-acronym">DRY</div>
+              <div class="term-badge">Don't Repeat</div>
+            </div>
+            <div class="term-full">Don't Repeat Yourself</div>
+            <div class="term-one">
+              Кожне знання має єдине представлення в системі.
+            </div>
+            <div class="term-rule">
+              Це не про схожий текст — це про знання. Однакова логіка ПДВ у
+              трьох файлах = порушення. Два компоненти з однаковим кольором = не
+              обов'язково.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Якщо зміниться ставка
+              ПДВ — скільки файлів треба оновити?
+            </div>
+            <a href="index.html#trio" class="term-link">Детальніше в гайді →</a>
+          </div>
+
+          <div class="term" style="--tc-color: #7c3aed" data-group="trio">
+            <div class="term-top">
+              <div class="term-acronym">KISS</div>
+              <div class="term-badge">Keep Simple</div>
+            </div>
+            <div class="term-full">Keep It Simple, Stupid</div>
+            <div class="term-one">Найкращий код — той що зрозуміє джуніор.</div>
+            <div class="term-rule">
+              Якщо задачу можна вирішити через if/else — не треба useReducer і
+              машини станів. Складність має бути виправданою реальною потребою.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи зрозуміє новий член
+              команди цей код за 15 хвилин без пояснень?
+            </div>
+            <a href="index.html#trio" class="term-link">Детальніше в гайді →</a>
+          </div>
+
+          <div class="term" style="--tc-color: #f59e0b" data-group="trio">
+            <div class="term-top">
+              <div class="term-acronym">YAGNI</div>
+              <div class="term-badge">Not Needed</div>
+            </div>
+            <div class="term-full">You Ain't Gonna Need It</div>
+            <div class="term-one">
+              Не пиши код який «може знадобитись» в майбутньому.
+            </div>
+            <div class="term-rule">
+              «А раптом знадобиться» — найдорожча фраза в розробці. Git зберігає
+              все — коли знадобиться, відновиш за 10 секунд. Зараз це технічний
+              борг.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи використовується
+              цей generic/enum/параметр прямо зараз?
+            </div>
+            <a href="index.html#trio" class="term-link">Детальніше в гайді →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANTIPATTERNS SECTION -->
+      <div class="cs-section" data-group="antipattern">
+        <div class="cs-section-header">
+          <div class="cs-section-title">Антипатерни</div>
+          <div class="cs-section-line"></div>
+          <div class="cs-section-tag" style="--st-color: #ef4444">
+            6 помилок
+          </div>
+        </div>
+        <div class="terms-grid">
+          <div
+            class="term"
+            style="--tc-color: #ef4444"
+            data-group="antipattern"
+          >
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                God Component
+              </div>
+            </div>
+            <div class="term-full">Порушує: SRP, OCP</div>
+            <div class="term-one">Компонент що знає все і робить все.</div>
+            <div class="term-rule">
+              Симптоми: файл 500+ рядків, 10+ useState, useEffect з 5
+              залежностями. Рішення: виділити хуки і дочірні компоненти.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи можеш написати
+              unit-тест за 5 хвилин?
+            </div>
+            <a href="antipatterns.html" class="term-link">Приклад коду →</a>
+          </div>
+
+          <div
+            class="term"
+            style="--tc-color: #f59e0b"
+            data-group="antipattern"
+          >
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                Prop Drilling
+              </div>
+            </div>
+            <div class="term-full">Порушує: ISP, SRP</div>
+            <div class="term-one">
+              Дані пробрасовуються через 3+ рівні де їх не використовують.
+            </div>
+            <div class="term-rule">
+              Рішення: Context API, Zustand, або React Query для серверного
+              стану. Глобальне — глобально.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи проходить проп
+              більше 2 рівнів не використовуючись?
+            </div>
+            <a href="antipatterns.html" class="term-link">Приклад коду →</a>
+          </div>
+
+          <div
+            class="term"
+            style="--tc-color: #7c3aed"
+            data-group="antipattern"
+          >
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                Magic Numbers
+              </div>
+            </div>
+            <div class="term-full">Порушує: DRY, KISS</div>
+            <div class="term-one">Числа і рядки без назви прямо в логіці.</div>
+            <div class="term-rule">
+              <code>86400000</code> нічого не каже.
+              <code>SESSION_TTL_MS</code> — каже все. Всі константи в
+              <code>constants.ts</code>.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи знаєш ти що означає
+              кожне число в цьому файлі без контексту?
+            </div>
+            <a href="antipatterns.html" class="term-link">Приклад коду →</a>
+          </div>
+
+          <div
+            class="term"
+            style="--tc-color: #10b981"
+            data-group="antipattern"
+          >
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                Shotgun Surgery
+              </div>
+            </div>
+            <div class="term-full">Порушує: OCP, DRY</div>
+            <div class="term-one">
+              Одна зміна вимагає правок у десятках файлів.
+            </div>
+            <div class="term-rule">
+              Якщо PR торкається 10+ файлів у різних модулях — знайди спільну
+              абстракцію і виноси в util/helper.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Якщо зміниться формат
+              імені юзера — скільки файлів треба оновити?
+            </div>
+            <a href="antipatterns.html" class="term-link">Приклад коду →</a>
+          </div>
+
+          <div
+            class="term"
+            style="--tc-color: #f472b6"
+            data-group="antipattern"
+          >
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                Dead Code
+              </div>
+            </div>
+            <div class="term-full">Порушує: YAGNI, KISS</div>
+            <div class="term-one">
+              Код який ніколи не виконується але займає місце.
+            </div>
+            <div class="term-rule">
+              Закоментовані блоки, unused imports, застарілі feature flags. Git
+              зберігає все — видаляй без жалю.
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Коли останній раз
+              виконувався цей закоментований блок?
+            </div>
+            <a href="antipatterns.html" class="term-link">Приклад коду →</a>
+          </div>
+
+          <div
+            class="term"
+            style="--tc-color: #00d4ff"
+            data-group="antipattern"
+          >
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.85rem">
+                Premature Opt.
+              </div>
+            </div>
+            <div class="term-full">Порушує: YAGNI, KISS</div>
+            <div class="term-one">
+              Оптимізація до того як виміряно проблему.
+            </div>
+            <div class="term-rule">
+              useMemo/useCallback без реального виміру — overhead. Правило
+              Кнута: «Передчасна оптимізація — корінь усього зла».
+            </div>
+            <div class="term-test">
+              <span class="term-test-icon">→</span> Тест: Чи є дані з React
+              DevTools Profiler що виправдовують це useMemo?
+            </div>
+            <a href="antipatterns.html" class="term-link">Приклад коду →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- META SECTION -->
+      <div class="cs-section" data-group="meta">
+        <div class="cs-section-header">
+          <div class="cs-section-title">Мета-поняття</div>
+          <div class="cs-section-line"></div>
+          <div class="cs-section-tag" style="--st-color: #f472b6">Терміни</div>
+        </div>
+        <div class="terms-grid">
+          <div class="term" style="--tc-color: #f472b6" data-group="meta">
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">Cohesion</div>
+            </div>
+            <div class="term-full">Зв'язність</div>
+            <div class="term-one">
+              Наскільки елементи всередині модуля логічно пов'язані.
+            </div>
+            <div class="term-rule">
+              Висока зв'язність = добре. Всі методи хука стосуються однієї теми.
+              Низька зв'язність = God Component.
+            </div>
+          </div>
+
+          <div class="term" style="--tc-color: #f472b6" data-group="meta">
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">Coupling</div>
+            </div>
+            <div class="term-full">Зачеплення</div>
+            <div class="term-one">
+              Наскільки модулі залежать один від одного.
+            </div>
+            <div class="term-rule">
+              Низьке зачеплення = добре. Компонент Avatar не знає нічого про
+              User крім src. Високе зачеплення = крихкий код.
+            </div>
+          </div>
+
+          <div class="term" style="--tc-color: #f472b6" data-group="meta">
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                Abstraction
+              </div>
+            </div>
+            <div class="term-full">Абстракція</div>
+            <div class="term-one">Інтерфейс без деталей реалізації.</div>
+            <div class="term-rule">
+              HttpClient як тип замість конкретного fetch — абстракція. Дозволяє
+              замінювати реалізацію без зміни споживача.
+            </div>
+          </div>
+
+          <div class="term" style="--tc-color: #f472b6" data-group="meta">
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.85rem">
+                Wrong Abstraction
+              </div>
+            </div>
+            <div class="term-full">Неправильна абстракція — Сенді Метц</div>
+            <div class="term-one">
+              Занадто рання DRY-оптимізація створює монстрів.
+            </div>
+            <div class="term-rule">
+              Дублювання дешевше за неправильну абстракцію. Спочатку дай коду
+              «дозріти», потім виноси спільне. Не поспішай.
+            </div>
+          </div>
+
+          <div class="term" style="--tc-color: #f472b6" data-group="meta">
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                Tech Debt
+              </div>
+            </div>
+            <div class="term-full">Технічний борг</div>
+            <div class="term-one">
+              Майбутня вартість сьогоднішніх компромісів.
+            </div>
+            <div class="term-rule">
+              Свідомий борг — ок (MVP). Несвідомий борг — небезпечно. SOLID
+              зменшує борг, але збільшує кількість файлів.
+            </div>
+          </div>
+
+          <div class="term" style="--tc-color: #f472b6" data-group="meta">
+            <div class="term-top">
+              <div class="term-acronym" style="font-size: 0.9rem">
+                Refactoring
+              </div>
+            </div>
+            <div class="term-full">Рефакторинг</div>
+            <div class="term-one">
+              Покращення структури коду без зміни поведінки.
+            </div>
+            <div class="term-rule">
+              Спершу зробіть так щоб працювало. Потім — щоб було красиво. Ніколи
+              не рефактори і не додаєш фічу одночасно.
+            </div>
+            <a href="refactoring.html" class="term-link"
+              >Дивись живий приклад →</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="gnav" id="gnav">
+      <a class="gnav-item" href="index.html" data-page="index">
+        <span class="gnav-icon">📖</span>
+        <span class="gnav-label">Гайд</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="quiz.html" data-page="quiz"
+        ><span class="gnav-icon">🧩</span
+        ><span class="gnav-label">Квіз</span></a
+      >
+      <a class="gnav-item" href="antipatterns.html" data-page="antipatterns"
+        ><span class="gnav-icon">⚠️</span
+        ><span class="gnav-label">Антипатерни</span></a
+      >
+      <a class="gnav-item" href="refactoring.html" data-page="refactoring"
+        ><span class="gnav-icon">⚡</span
+        ><span class="gnav-label">Рефакторинг</span></a
+      >
+      <a class="gnav-item active" href="cheatsheet.html" data-page="cheatsheet"
+        ><span class="gnav-icon">📋</span
+        ><span class="gnav-label">Шпаргалка</span></a
+      >
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="tracker.html" data-page="tracker"
+        ><span class="gnav-prog"></span><span class="gnav-icon">📊</span
+        ><span class="gnav-label">Прогрес</span></a
+      >
+    </nav>
+
+    <script type="module" src="./cheatsheet.js"></script>
+  </body>
+</html>
