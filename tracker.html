@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мій Прогрес — Frontend Принципи</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="tracker.css" />
+  </head>
+  <body data-current="tracker">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <!-- Celebration overlay -->
+    <div class="celebrate" id="celebrate">
+      <div class="celebrate-box">
+        <span class="cel-emoji">🏆</span>
+        <div class="cel-title">Всі засвоєні!</div>
+        <p class="cel-text">
+          Ти пройшов повний шлях від теорії до практики. Тепер ти знаєш SOLID,
+          DRY, KISS і YAGNI на рівні, достатньому для реального Code Review.
+        </p>
+        <button
+          class="cel-close"
+          onclick="
+            document.getElementById('celebrate').classList.remove('show')
+          "
+        >
+          Закрити
+        </button>
+      </div>
+    </div>
+
+    <div class="shell">
+      <a href="index.html" class="back">
+        <svg
+          width="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M10 3L5 8l5 5" />
+        </svg>
+        Повернутись до гайду
+      </a>
+
+      <div class="hero">
+        <div class="eyebrow">Прогрес-трекер</div>
+        <h1 class="hero-title">Твій шлях до<br /><em>чистого коду</em></h1>
+        <p class="hero-desc">
+          Відмічай принципи по мірі засвоєння. Прогрес зберігається в браузері —
+          нікуди не зникне.
+        </p>
+      </div>
+
+      <!-- MASTER PROGRESS -->
+      <div class="master-card">
+        <div class="master-top">
+          <div>
+            <div class="master-label">Загальний прогрес</div>
+            <div class="master-pct" id="master-pct">0%</div>
+            <div class="master-sub" id="master-sub">Починаємо з нуля</div>
+          </div>
+          <div class="master-verdict">
+            <span class="verdict-emoji" id="verdict-emoji">🌱</span>
+            <div class="verdict-text" id="verdict-text">Новачок</div>
+          </div>
+        </div>
+        <div class="big-track">
+          <div class="big-fill" id="big-fill" style="width: 0%"></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-pill">
+            <div class="stat-dot" style="background: var(--muted)"></div>
+            <div class="stat-num" id="s0-count">0</div>
+            <span style="color: var(--muted); font-size: 0.8rem">не читав</span>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-dot" style="background: var(--c3)"></div>
+            <div class="stat-num" id="s1-count">0</div>
+            <span style="color: var(--muted); font-size: 0.8rem">читав</span>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-dot" style="background: var(--c4)"></div>
+            <div class="stat-num" id="s2-count">0</div>
+            <span style="color: var(--muted); font-size: 0.8rem">засвоїв</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOLID GROUP -->
+      <div class="group">
+        <div class="group-header">
+          <div class="group-title">SOLID</div>
+          <div class="group-line"></div>
+          <div class="group-count" id="solid-count">0 / 5</div>
+        </div>
+        <div class="cards-grid" id="grid-solid"></div>
+      </div>
+
+      <!-- DRY·KISS·YAGNI GROUP -->
+      <div class="group">
+        <div class="group-header">
+          <div class="group-title">DRY · KISS · YAGNI</div>
+          <div class="group-line"></div>
+          <div class="group-count" id="trio-count">0 / 3</div>
+        </div>
+        <div class="cards-grid" id="grid-trio"></div>
+      </div>
+
+      <!-- TOOLS GROUP -->
+      <div class="group">
+        <div class="group-header">
+          <div class="group-title">Практика</div>
+          <div class="group-line"></div>
+          <div class="group-count" id="tools-count">0 / 4</div>
+        </div>
+        <div class="cards-grid" id="grid-tools"></div>
+      </div>
+
+      <div class="reset-wrap">
+        <button class="reset-btn" onclick="confirmReset()">
+          ↺ Скинути прогрес
+        </button>
+      </div>
+    </div>
+
+    <!-- GLOBAL NAV -->
+    <nav class="gnav" id="gnav">
+      <a class="gnav-item" href="index.html" data-page="index">
+        <span class="gnav-icon">📖</span>
+        <span class="gnav-label">Гайд</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="quiz.html" data-page="quiz">
+        <span class="gnav-icon">🧩</span>
+        <span class="gnav-label">Квіз</span>
+      </a>
+      <a class="gnav-item" href="antipatterns.html" data-page="antipatterns">
+        <span class="gnav-icon">⚠️</span>
+        <span class="gnav-label">Антипатерни</span>
+      </a>
+      <a class="gnav-item" href="refactoring.html" data-page="refactoring">
+        <span class="gnav-icon">⚡</span>
+        <span class="gnav-label">Рефакторинг</span>
+      </a>
+      <a class="gnav-item" href="cheatsheet.html" data-page="cheatsheet">
+        <span class="gnav-icon">📋</span>
+        <span class="gnav-label">Шпаргалка</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="tracker.html" data-page="tracker">
+        <span class="gnav-prog"></span>
+        <span class="gnav-icon">📊</span>
+        <span class="gnav-label">Прогрес</span>
+      </a>
+    </nav>
+    <script type="module" src="./tracker.js"></script>
+  </body>
+</html>
