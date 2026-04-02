@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Живий Рефакторинг — Frontend Принципи</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="refactoring.css" />
+  </head>
+  <body data-current="refactoring">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="shell">
+      <a href="index.html" class="back">
+        <svg
+          width="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M10 3L5 8l5 5" />
+        </svg>
+        Повернутись до гайду
+      </a>
+
+      <div class="hero">
+        <div class="eyebrow">Живий рефакторинг</div>
+        <h1 class="hero-title">
+          Один компонент —<br /><em>чотири принципи</em>
+        </h1>
+        <p class="hero-desc">
+          Дивись як поганий «God Component» перетворюється на чистий код крок за
+          кроком. Кожен крок — один принцип.
+        </p>
+        <div class="read-time">
+          <span class="read-time-dot"></span><span id="read-time-val">—</span>
+        </div>
+      </div>
+
+      <!-- STEP INDICATORS -->
+      <div class="steps-nav" id="steps-nav">
+        <div class="step-dot active" data-step="0" style="--sd-color: #ef4444">
+          <div class="step-circle">0</div>
+          <div class="step-label">Старт</div>
+        </div>
+        <div class="step-dot" data-step="1" style="--sd-color: #00d4ff">
+          <div class="step-circle">1</div>
+          <div class="step-label">SRP</div>
+        </div>
+        <div class="step-dot" data-step="2" style="--sd-color: #ef4444">
+          <div class="step-circle">2</div>
+          <div class="step-label">DIP</div>
+        </div>
+        <div class="step-dot" data-step="3" style="--sd-color: #10b981">
+          <div class="step-circle">3</div>
+          <div class="step-label">ISP</div>
+        </div>
+        <div class="step-dot" data-step="4" style="--sd-color: #7c3aed">
+          <div class="step-circle">4</div>
+          <div class="step-label">OCP</div>
+        </div>
+        <div class="step-dot" data-step="5" style="--sd-color: #10b981">
+          <div class="step-circle">✓</div>
+          <div class="step-label">Фінал</div>
+        </div>
+      </div>
+
+      <div class="main-layout">
+        <!-- CODE EDITOR -->
+        <div class="editor">
+          <div class="editor-titlebar">
+            <div style="display: flex; align-items: center; gap: 1rem">
+              <div class="editor-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="editor-filename">
+                <span class="dot"></span><span id="filename">UserCard.tsx</span>
+              </div>
+            </div>
+            <div class="editor-stats" id="editor-stats"></div>
+          </div>
+          <div class="code-area" id="code-area"></div>
+          <div class="diff-legend">
+            <div class="dl-item">
+              <div class="dl-bar add"></div>
+              Додано
+            </div>
+            <div class="dl-item">
+              <div class="dl-bar rem"></div>
+              Видалено
+            </div>
+            <div class="dl-item">
+              <div class="dl-bar hi"></div>
+              Без змін
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="side-panel">
+          <!-- Step 0: Start -->
+          <div class="step-card active" id="card-0" style="--sc-color: #ef4444">
+            <div class="step-card-top">
+              <div class="step-num-big">КРОК 0 З 4</div>
+              <div class="step-title">Вхідний код</div>
+              <div class="principle-pill">🚨 God Component</div>
+              <p class="step-desc">
+                Ось наш «пацієнт» — <strong>UserCard</strong>. Один компонент
+                робить все: завантажує дані, відображає UI, перевіряє права
+                доступу, форматує вивід і логує аналітику.<br /><br />Порахуємо
+                порушення разом.
+              </p>
+            </div>
+            <div class="step-changes">
+              <div class="changes-title">Проблеми</div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">
+                  fetch прямо в компоненті — <strong>DIP</strong>
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">
+                  отримує весь User, використовує 2 поля — <strong>ISP</strong>
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">
+                  if/else по ролях захардкоджено — <strong>OCP</strong>
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">
+                  4 причини змінитись — <strong>SRP</strong>
+                </div>
+              </div>
+            </div>
+            <div class="step-card-bottom">
+              <button class="btn-prev" disabled>←</button>
+              <button class="btn-next" onclick="goStep(1)">
+                Починаємо → SRP
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 1: SRP -->
+          <div class="step-card" id="card-1" style="--sc-color: #00d4ff">
+            <div class="step-card-top">
+              <div class="step-num-big">КРОК 1 З 4</div>
+              <div class="step-title">Single Responsibility</div>
+              <div class="principle-pill">S — SRP</div>
+              <p class="step-desc">
+                Виносимо логіку завантаження даних у окремий хук
+                <strong>useUser</strong>. Компонент більше не знає про fetch —
+                він тільки отримує готові дані і рендерить.<br /><br />Одна
+                причина для зміни замість чотирьох.
+              </p>
+            </div>
+            <div class="step-changes">
+              <div class="changes-title">Зміни</div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">
+                  Створено хук <strong>useUser(id)</strong> — вся логіка даних
+                  тут
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">Компонент тепер просто викликає хук</div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">
+                  Прибрано useState/useEffect з компонента
+                </div>
+              </div>
+            </div>
+            <div class="step-card-bottom">
+              <button class="btn-prev" onclick="goStep(0)">←</button>
+              <button class="btn-next" onclick="goStep(2)">Далі → DIP</button>
+            </div>
+          </div>
+
+          <!-- Step 2: DIP -->
+          <div class="step-card" id="card-2" style="--sc-color: #ef4444">
+            <div class="step-card-top">
+              <div class="step-num-big">КРОК 2 З 4</div>
+              <div class="step-title">Dependency Inversion</div>
+              <div class="principle-pill">D — DIP</div>
+              <p class="step-desc">
+                Хук <strong>useUser</strong> досі залежить від
+                <code>fetch</code> напряму. Передаємо HTTP-клієнт як параметр —
+                тепер хук не знає про конкретний транспорт.<br /><br />Замінити
+                fetch на axios або React Query — нуль змін у бізнес-логіці.
+              </p>
+            </div>
+            <div class="step-changes">
+              <div class="changes-title">Зміни</div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">
+                  <strong>httpClient</strong> передається як залежність
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">
+                  Хук залежить від абстракції, не від fetch
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">Прибрано прямий виклик fetch</div>
+              </div>
+            </div>
+            <div class="step-card-bottom">
+              <button class="btn-prev" onclick="goStep(1)">←</button>
+              <button class="btn-next" onclick="goStep(3)">Далі → ISP</button>
+            </div>
+          </div>
+
+          <!-- Step 3: ISP -->
+          <div class="step-card" id="card-3" style="--sc-color: #10b981">
+            <div class="step-card-top">
+              <div class="step-num-big">КРОК 3 З 4</div>
+              <div class="step-title">Interface Segregation</div>
+              <div class="principle-pill">I — ISP</div>
+              <p class="step-desc">
+                Компонент отримував весь об'єкт <code>User</code> з 10+ полями,
+                але використовував лише <strong>name</strong> і
+                <strong>avatar</strong>. Звужуємо інтерфейс до мінімуму.<br /><br />Тепер
+                компонент незалежний від решти User.
+              </p>
+            </div>
+            <div class="step-changes">
+              <div class="changes-title">Зміни</div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">
+                  Пропс змінено з <strong>User</strong> на
+                  <strong>UserCardProps</strong>
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">
+                  Інтерфейс містить тільки потрібні поля
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">Прибрано надлишкові поля з пропсів</div>
+              </div>
+            </div>
+            <div class="step-card-bottom">
+              <button class="btn-prev" onclick="goStep(2)">←</button>
+              <button class="btn-next" onclick="goStep(4)">Далі → OCP</button>
+            </div>
+          </div>
+
+          <!-- Step 4: OCP -->
+          <div class="step-card" id="card-4" style="--sc-color: #7c3aed">
+            <div class="step-card-top">
+              <div class="step-num-big">КРОК 4 З 4</div>
+              <div class="step-title">Open / Closed</div>
+              <div class="principle-pill">O — OCP</div>
+              <p class="step-desc">
+                Логіка ролей була захардкоджена як if/else. Замінюємо на
+                <strong>об'єкт-стратегію</strong> — тепер нова роль додається
+                одним рядком без зміни самої функції.<br /><br />Відкритий для
+                розширення. Закритий для модифікації.
+              </p>
+            </div>
+            <div class="step-changes">
+              <div class="changes-title">Зміни</div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">
+                  Створено <strong>ROLE_LABELS</strong> — об'єкт конфігурації
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🟢</div>
+                <div class="ci-text">Нова роль = один рядок у конфізі</div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">🔴</div>
+                <div class="ci-text">Видалено if/else chain</div>
+              </div>
+            </div>
+            <div class="step-card-bottom">
+              <button class="btn-prev" onclick="goStep(3)">←</button>
+              <button class="btn-next" onclick="goStep(5)">
+                Подивитись результат ✓
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 5: Final -->
+          <div class="step-card" id="card-5" style="--sc-color: #10b981">
+            <div class="step-card-top">
+              <div class="step-num-big">ФІНАЛ</div>
+              <div class="step-title">Рефакторинг завершено</div>
+              <div class="principle-pill">✓ Чистий код</div>
+              <p class="step-desc">
+                З одного компонента на 42 рядки ми отримали
+                <strong>чисту архітектуру</strong> з розподіленими обов'язками.
+                Кожна одиниця робить одну річ і легко тестується.
+              </p>
+            </div>
+            <div class="step-changes">
+              <div class="changes-title">Що стало краще</div>
+              <div class="change-item">
+                <div class="ci-icon">✅</div>
+                <div class="ci-text">
+                  <strong>useUser</strong> — ізольована логіка даних
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">✅</div>
+                <div class="ci-text">
+                  <strong>UserCard</strong> — тільки рендеринг
+                </div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">✅</div>
+                <div class="ci-text">Транспорт — через залежність</div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">✅</div>
+                <div class="ci-text">Інтерфейс — мінімальний</div>
+              </div>
+              <div class="change-item">
+                <div class="ci-icon">✅</div>
+                <div class="ci-text">Ролі — розширювані без змін</div>
+              </div>
+            </div>
+            <div class="step-card-bottom">
+              <button class="btn-prev" onclick="goStep(4)">← Назад</button>
+              <button class="btn-next" onclick="goStep(0)">🔄 Спочатку</button>
+            </div>
+          </div>
+
+          <!-- Final banner -->
+          <div class="final-banner" id="final-banner">
+            <div class="fb-title">🏁 Молодець! Пройшов увесь шлях</div>
+            <div class="fb-text">
+              Тепер ти бачив як застосовувати SOLID на реальному прикладі.
+              Перевір себе в квізі або вивчи антипатерни.
+            </div>
+            <div class="fb-actions">
+              <a href="quiz.html" class="fb-btn primary">Квіз →</a>
+              <a href="antipatterns.html" class="fb-btn secondary"
+                >Антипатерни</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL NAV -->
+    <nav class="gnav" id="gnav">
+      <a class="gnav-item" href="index.html" data-page="index">
+        <span class="gnav-icon">📖</span>
+        <span class="gnav-label">Гайд</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="quiz.html" data-page="quiz">
+        <span class="gnav-icon">🧩</span>
+        <span class="gnav-label">Квіз</span>
+      </a>
+      <a class="gnav-item" href="antipatterns.html" data-page="antipatterns">
+        <span class="gnav-icon">⚠️</span>
+        <span class="gnav-label">Антипатерни</span>
+      </a>
+      <a class="gnav-item" href="refactoring.html" data-page="refactoring">
+        <span class="gnav-icon">⚡</span>
+        <span class="gnav-label">Рефакторинг</span>
+      </a>
+      <a class="gnav-item" href="cheatsheet.html" data-page="cheatsheet">
+        <span class="gnav-icon">📋</span>
+        <span class="gnav-label">Шпаргалка</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="tracker.html" data-page="tracker">
+        <span class="gnav-prog"></span>
+        <span class="gnav-icon">📊</span>
+        <span class="gnav-label">Прогрес</span>
+      </a>
+    </nav>
+
+    <script type="module" src="./refactoring.js"></script>
+  </body>
+</html>
