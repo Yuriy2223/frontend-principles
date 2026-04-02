@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend Принципи</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body data-current="index">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div>
+        <div class="hero-badge">// Гайд YS • 2026</div>
+        <h1 class="hero-title">
+          <span class="line1">Frontend</span>
+          <span class="line2">Принципи</span>
+        </h1>
+        <p class="hero-sub">
+          SOLID, DRY, KISS, YAGNI — повний конспект для розробників, які хочуть
+          писати код, а не жити в ньому
+        </p>
+        <div class="read-time">
+          <span class="read-time-dot"></span><span id="read-time-val">—</span>
+        </div>
+
+        <div class="hero-chips">
+          <a class="chip" href="#solid">SOLID</a>
+          <a class="chip" href="#trio">DRY</a>
+          <a class="chip" href="#trio">KISS</a>
+          <a class="chip" href="#trio">YAGNI</a>
+          <a class="chip" href="#solid">React</a>
+          <a class="chip" href="#solid">TypeScript</a>
+          <a class="chip" href="#matrix">Architecture</a>
+        </div>
+      </div>
+      <a class="scroll-hint" href="#why" style="text-decoration: none">
+        <span>scroll</span>
+        <div class="arrow"></div>
+      </a>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- WHY -->
+    <section class="section" id="why">
+      <div class="section-label">Вступ</div>
+      <h2 class="section-title">Чому це важливо<br />навіть у 2026?</h2>
+      <div class="why-grid">
+        <div class="why-card" data-accent="cyan">
+          <div class="why-icon">🤖</div>
+          <div class="why-title">AI — це Junior</div>
+          <p class="why-text">
+            AI генерує код на основі того, що бачив. Якщо ваша кодова база —
+            «сміття», ШІ генеруватиме «сміття» у вашому контексті. Принципи — це
+            рятівний круг.
+          </p>
+        </div>
+        <div class="why-card" data-accent="purple">
+          <div class="why-icon">🧠</div>
+          <div class="why-title">Когнітивне навантаження</div>
+          <p class="why-text">
+            Паттерни структурують проект так, щоб ви знаходили помилку за 5
+            хвилин, а не за 5 годин. Хороший код — це коли мозок відпочиває.
+          </p>
+        </div>
+        <div class="why-card" data-accent="amber">
+          <div class="why-icon">💬</div>
+          <div class="why-title">Спільна мова</div>
+          <p class="why-text">
+            На Code Review фраза «Тут порушено SRP» економить 15 хвилин
+            пояснень. Термінологія — це інвестиція в командну ефективність.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SOLID -->
+    <section class="section" id="solid">
+      <div class="section-label">Глибоке занурення</div>
+      <h2 class="section-title">SOLID принципи</h2>
+
+      <!-- NAV -->
+      <div class="solid-nav" id="solid-nav">
+        <button
+          class="solid-btn active"
+          data-target="srp"
+          style="--btn-color: #00d4ff"
+        >
+          <span class="letter" style="background: rgba(0, 212, 255, 0.1)"
+            >S</span
+          >
+          SRP
+        </button>
+        <button
+          class="solid-btn"
+          data-target="ocp"
+          style="--btn-color: #7c3aed"
+        >
+          <span class="letter" style="background: rgba(124, 58, 237, 0.1)"
+            >O</span
+          >
+          OCP
+        </button>
+        <button
+          class="solid-btn"
+          data-target="lsp"
+          style="--btn-color: #f59e0b"
+        >
+          <span class="letter" style="background: rgba(245, 158, 11, 0.1)"
+            >L</span
+          >
+          LSP
+        </button>
+        <button
+          class="solid-btn"
+          data-target="isp"
+          style="--btn-color: #10b981"
+        >
+          <span class="letter" style="background: rgba(16, 185, 129, 0.1)"
+            >I</span
+          >
+          ISP
+        </button>
+        <button
+          class="solid-btn"
+          data-target="dip"
+          style="--btn-color: #ef4444"
+        >
+          <span class="letter" style="background: rgba(239, 68, 68, 0.1)"
+            >D</span
+          >
+          DIP
+        </button>
+      </div>
+
+      <!-- SRP -->
+      <div class="solid-panel active" id="panel-srp">
+        <div class="solid-header" style="--panel-color: #00d4ff">
+          <div class="solid-letter-big">S</div>
+          <div class="solid-info">
+            <div class="solid-name">Single Responsibility Principle</div>
+            <div class="solid-tagline">Принцип єдиної відповідальності</div>
+            <p class="solid-desc">
+              У модуля має бути <strong>лише одна причина для зміни</strong>.
+              Висока зв'язність (Cohesion) всередині — добре. Високе зачеплення
+              (Coupling) між модулями — погано.
+            </p>
+          </div>
+        </div>
+        <div class="solid-row">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label bad">❌ ПОГАНО — "Божественний хук"</div>
+            </div>
+            <div class="code-body">
+              <span class="kw">const</span>
+              <span class="fn">useUserActions</span> = () => {
+              <span class="kw">const</span> [user, setUser] =
+              <span class="fn">useState</span>(<span class="kw">null</span>);
+
+              <span class="cm">// Причина 1: правила валідації</span>
+              <span class="kw">const</span> <span class="fn">validate</span> =
+              (data) => data.email.<span class="fn">includes</span>(<span
+                class="str"
+                >'@'</span
+              >);
+
+              <span class="cm">// Причина 2: зміна API (REST→GraphQL)</span>
+              <span class="kw">const</span> <span class="fn">save</span> =
+              <span class="kw">async</span> (data) => {
+              <span class="kw">if</span> (<span class="fn">validate</span
+              >(data)) { <span class="kw">await</span>
+              <span class="fn">fetch</span>(<span class="str">'/api/user'</span
+              >, { body: JSON.<span class="fn">stringify</span>(data) }); } };
+              <span class="kw">return</span> { user, save }; };
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label good">
+                ✓ ДОБРЕ — Розділяємо відповідальність
+              </div>
+            </div>
+            <div class="code-body">
+              <span class="cm">// Хук 1: тільки логіка форми</span>
+              <span class="kw">const</span>
+              <span class="fn">useUserForm</span> = (onSave) => {
+              <span class="kw">const</span> [data, setData] =
+              <span class="fn">useState</span>({});
+              <span class="kw">const</span> <span class="fn">validate</span> =
+              () => { <span class="cm">/*...*/</span> };
+              <span class="kw">const</span>
+              <span class="fn">handleSubmit</span> = () => {
+              <span class="kw">if</span>(<span class="fn">validate</span>())
+              <span class="fn">onSave</span>(data); };
+              <span class="kw">return</span> { data, handleSubmit }; };
+
+              <span class="cm">// Хук 2: тільки транспорт</span>
+              <span class="kw">const</span> <span class="fn">useUserApi</span> =
+              () => { <span class="kw">const</span>
+              <span class="fn">saveUser</span> =
+              <span class="kw">async</span> (payload) => {
+              <span class="cm">/* тільки fetch */</span>
+              };
+              <span class="kw">return</span> { saveUser }; };
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OCP -->
+      <div class="solid-panel" id="panel-ocp">
+        <div class="solid-header" style="--panel-color: #7c3aed">
+          <div class="solid-letter-big" style="--panel-color: #7c3aed">O</div>
+          <div class="solid-info">
+            <div class="solid-name">Open/Closed Principle</div>
+            <div class="solid-tagline">Принцип відкритості/закритості</div>
+            <p class="solid-desc">
+              Сутності мають бути
+              <strong
+                >відкриті для розширення, але закриті для модифікації</strong
+              >. Нова фіча — без торкання старого робочого коду.
+            </p>
+          </div>
+        </div>
+        <div class="solid-row">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label bad">❌ ПОГАНО — Редагуємо щоразу</div>
+            </div>
+            <div class="code-body">
+              <span class="cm">// При кожній новій ролі — лізем сюди</span>
+              <span class="kw">const</span>
+              <span class="fn">checkAccess</span> = (user) => {
+              <span class="kw">if</span> (user.role <span class="op">===</span>
+              <span class="str">'admin'</span>) <span class="kw">return</span>
+              <span class="kw">true</span>;
+              <span class="kw">if</span> (user.role <span class="op">===</span>
+              <span class="str">'editor'</span>)
+              <span class="kw">return</span> user.hasPermission;
+              <span class="kw">if</span> (user.role <span class="op">===</span>
+              <span class="str">'guest'</span>) <span class="kw">return</span>
+              <span class="kw">false</span>; };
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label good">
+                ✓ ДОБРЕ — Стратегія через конфіг
+              </div>
+            </div>
+            <div class="code-body">
+              <span class="cm">// Нова роль = просто нове поле</span>
+              <span class="kw">const</span> ROLES_STRATEGY = {
+              <span class="fn">admin</span>: () => <span class="kw">true</span>,
+              <span class="fn">editor</span>: (user) => user.hasPermission,
+              <span class="fn">guest</span>: () =>
+              <span class="kw">false</span>,
+              <span class="cm">// + superadmin: () => true</span>
+              };
+
+              <span class="kw">const</span>
+              <span class="fn">checkAccess</span> = (user) => {
+              <span class="kw">return</span> ROLES_STRATEGY[user.role] ?.<span
+                class="fn"
+                >(user)</span
+              >
+              ?? <span class="kw">false</span>; };
+              <span class="cm">// checkAccess — не змінюється ніколи!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LSP -->
+      <div class="solid-panel" id="panel-lsp">
+        <div class="solid-header" style="--panel-color: #f59e0b">
+          <div class="solid-letter-big" style="--panel-color: #f59e0b">L</div>
+          <div class="solid-info">
+            <div class="solid-name">Liskov Substitution Principle</div>
+            <div class="solid-tagline">Принцип підстановки Лісков</div>
+            <p class="solid-desc">
+              Компоненти-обгортки
+              <strong>не повинні ламати очікувану поведінку</strong> базових
+              компонентів. Підклас завжди замінний базовим класом.
+            </p>
+          </div>
+        </div>
+        <div class="solid-row">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label bad">❌ ПОГАНО — Контракт порушено</div>
+            </div>
+            <div class="code-body">
+              <span class="kw">interface</span>
+              <span class="ty">ButtonProps</span> { onClick: () =>
+              <span class="kw">void</span>; label:
+              <span class="kw">string</span>; }
+
+              <span class="cm">// Забули onClick або змінили сенс</span>
+              <span class="kw">const</span>
+              <span class="fn">DeleteButton</span> = ( { label }: { label:
+              <span class="kw">string</span> } ) => {
+              <span class="kw">return</span> ( &lt;<span class="ty"
+                >button</span
+              >
+              onClick={() => <span class="fn">confirm</span>(<span class="str"
+                >'Впевнені?'</span
+              >)} &gt; {label} &lt;/<span class="ty">button</span>&gt; ); };
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label good">✓ ДОБРЕ — Контракт збережено</div>
+            </div>
+            <div class="code-body">
+              <span class="cm">// Зберігаємо повний контракт</span>
+              <span class="kw">const</span> <span class="fn">IconButton</span> =
+              ({ icon, ...props }: <span class="ty">ButtonProps</span> & { icon:
+              <span class="kw">string</span> }) => {
+              <span class="kw">return</span> ( &lt;<span class="ty"
+                >button</span
+              >
+              {...props}&gt; &lt;<span class="ty">Icon</span> name={icon} /&gt;
+              {props.label} &lt;/<span class="ty">button</span>&gt; ); };
+              <span class="cm">// onClick прокидається через ...props</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ISP -->
+      <div class="solid-panel" id="panel-isp">
+        <div class="solid-header" style="--panel-color: #10b981">
+          <div class="solid-letter-big" style="--panel-color: #10b981">I</div>
+          <div class="solid-info">
+            <div class="solid-name">Interface Segregation Principle</div>
+            <div class="solid-tagline">Принцип розділення інтерфейсу</div>
+            <p class="solid-desc">
+              Клієнти
+              <strong
+                >не повинні залежати від інтерфейсів, які не
+                використовують</strong
+              >. Краще багато маленьких інтерфейсів, ніж один "товстий".
+            </p>
+          </div>
+        </div>
+        <div class="solid-row">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label bad">❌ ПОГАНО — Зайва залежність</div>
+            </div>
+            <div class="code-body">
+              <span class="cm">// Avatar отримує весь User об'єкт,</span>
+              <span class="cm">// хоча потрібен лише URL</span>
+              <span class="kw">const</span> <span class="fn">Avatar</span> = ( {
+              user }: { user: <span class="ty">User</span> } ) => {
+              <span class="kw">return</span> ( &lt;<span class="ty">img</span>
+              src={user.settings.profile.avatarUrl} /&gt; ); };
+              <span class="cm"
+                >// Тепер Avatar знає про User і залежить від нього!</span
+              >
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label good">✓ ДОБРЕ — Мінімальна залежність</div>
+            </div>
+            <div class="code-body">
+              <span class="cm">// Залежимо лише від потрібного</span>
+              <span class="kw">const</span> <span class="fn">Avatar</span> = ( {
+              src }: { src: <span class="kw">string</span> } ) => {
+              <span class="kw">return</span> &lt;<span class="ty">img</span>
+              src={src} /&gt;; };
+
+              <span class="cm">// Виклик:</span>
+              &lt;<span class="ty">Avatar</span>
+              src={user.settings.profile.avatarUrl} /&gt;
+              <span class="cm">// Avatar не знає про User — він вільний!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIP -->
+      <div class="solid-panel" id="panel-dip">
+        <div class="solid-header" style="--panel-color: #ef4444">
+          <div class="solid-letter-big" style="--panel-color: #ef4444">D</div>
+          <div class="solid-info">
+            <div class="solid-name">Dependency Inversion Principle</div>
+            <div class="solid-tagline">Принцип інверсії залежностей</div>
+            <p class="solid-desc">
+              Модулі верхнього рівня
+              <strong>не залежать від нижнього рівня</strong>. Не імпортуйте
+              axios або localStorage прямо в бізнес-логіку — передавайте як
+              залежність.
+            </p>
+          </div>
+        </div>
+        <div class="solid-row">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label bad">❌ ПОГАНО — Жорстка залежність</div>
+            </div>
+            <div class="code-body">
+              <span class="kw">import</span> axios <span class="kw">from</span>
+              <span class="str">'axios'</span>;
+
+              <span class="cm">// Бізнес-логіка знає про axios!</span>
+              <span class="kw">const</span>
+              <span class="fn">getBonusPoints</span> = (price:
+              <span class="kw">number</span>) => {
+              <span class="cm">// Жорстко прив'язані до axios</span>
+              <span class="kw">const</span> rate = <span class="num">0.1</span>;
+              <span class="kw">return</span> price * rate; };
+              <span class="cm"
+                >// Замінити axios на fetch = переписати все</span
+              >
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="code-label good">
+                ✓ ДОБРЕ — Залежність через абстракцію
+              </div>
+            </div>
+            <div class="code-body">
+              <span class="cm">// Бізнес-логіка не знає про транспорт</span>
+              <span class="kw">const</span>
+              <span class="fn">getBonusPoints</span> = ( price:
+              <span class="kw">number</span>, calculator: (v:
+              <span class="kw">number</span>) => <span class="kw">number</span>
+              ) => {
+              <span class="kw">return</span>
+              <span class="fn">calculator</span>(price); };
+
+              <span class="cm">// Реалізація — окремо</span>
+              <span class="kw">const</span> <span class="fn">simpleCalc</span> =
+              (p) => p * <span class="num">0.1</span>;
+
+              <span class="cm">// Виклик:</span>
+              <span class="fn">getBonusPoints</span>(<span class="num">100</span
+              >, simpleCalc);
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- DRY KISS YAGNI -->
+    <section class="section" id="trio">
+      <div class="section-label">Тріада здорового глузду</div>
+      <h2 class="section-title">DRY · KISS · YAGNI</h2>
+
+      <div class="trio-grid">
+        <div class="trio-card" style="--tc-color: #00d4ff">
+          <div class="trio-acronym">DRY</div>
+          <div class="trio-full">Don't Repeat Yourself</div>
+          <p class="trio-body">
+            Це <strong>не про копіювання тексту</strong> — це про знання.
+            Однакова логіка в двох місцях — порушення. Але два компоненти з
+            однаковим кольором — ще не підстава для абстракції.<br /><br />
+            Пам'ятайте: <strong>«Неправильна абстракція»</strong> гірша за
+            дублювання. Занадто рання DRY-оптимізація створює монстрів.
+          </p>
+        </div>
+        <div class="trio-card" style="--tc-color: #7c3aed">
+          <div class="trio-acronym">KISS</div>
+          <div class="trio-full">Keep It Simple, Stupid</div>
+          <p class="trio-body">
+            <strong>Найкращий код — зрозуміє Junior</strong>. Якщо задачу можна
+            вирішити через if/else — не треба будувати машину станів або
+            useReducer.<br /><br />
+            Складність має бути <strong>виправданою</strong>. Питайте себе: чи
+            ускладнення вирішує реальну проблему?
+          </p>
+        </div>
+        <div class="trio-card" style="--tc-color: #f59e0b">
+          <div class="trio-acronym">YAGNI</div>
+          <div class="trio-full">You Ain't Gonna Need It</div>
+          <p class="trio-body">
+            <strong>Не пишіть код "на виріст"</strong>. «А раптом знадобиться
+            підтримка китайської?» — Коли знадобиться, тоді й додасте.<br /><br />
+            Зараз це просто зайве «сміття», яке треба тестувати, підтримувати і
+            яке може зламатися.
+          </p>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        Спершу зробіть так, щоб <strong>працювало</strong>. Потім зробіть так,
+        щоб було <strong>красиво</strong> (рефакторинг за SOLID). Завжди
+        пам'ятайте про компроміси: SOLID додає файлів, але зменшує кількість
+        багів у майбутньому.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- MATRIX -->
+    <section class="section" id="matrix">
+      <div class="section-label">Матриця вибору</div>
+      <h2 class="section-title">Коли який<br />принцип пріоритетний?</h2>
+
+      <div class="matrix-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Стадія проекту</th>
+              <th>Пріоритетні принципи</th>
+              <th>Чому це важливо?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="td-stage" style="color: #00d4ff">
+                  🚀 Прототип / MVP
+                </div>
+              </td>
+              <td class="td-principles">
+                <span
+                  class="badge-p"
+                  style="background: rgba(245, 158, 11, 0.15); color: #f59e0b"
+                  >KISS</span
+                >
+                <span
+                  class="badge-p"
+                  style="background: rgba(245, 158, 11, 0.15); color: #f59e0b"
+                  >YAGNI</span
+                >
+              </td>
+              <td style="color: var(--muted)">
+                Головне — швидкість. Не будуйте собор там, де потрібен намет.
+                Валідуйте ідею перш за все.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="td-stage" style="color: #7c3aed">
+                  📈 Активний ріст
+                </div>
+              </td>
+              <td class="td-principles">
+                <span
+                  class="badge-p"
+                  style="background: rgba(0, 212, 255, 0.15); color: #00d4ff"
+                  >SRP</span
+                >
+                <span
+                  class="badge-p"
+                  style="background: rgba(0, 212, 255, 0.15); color: #00d4ff"
+                  >DRY</span
+                >
+              </td>
+              <td style="color: var(--muted)">
+                Код починає дублюватися, виникають баги. Час ділити логіку на
+                частини й виносити повторення.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="td-stage" style="color: #10b981">
+                  🏢 Масштабування
+                </div>
+              </td>
+              <td class="td-principles">
+                <span
+                  class="badge-p"
+                  style="background: rgba(124, 58, 237, 0.15); color: #7c3aed"
+                  >OCP</span
+                >
+                <span
+                  class="badge-p"
+                  style="background: rgba(124, 58, 237, 0.15); color: #7c3aed"
+                  >DIP</span
+                >
+                <span
+                  class="badge-p"
+                  style="background: rgba(124, 58, 237, 0.15); color: #7c3aed"
+                  >LSP</span
+                >
+              </td>
+              <td style="color: var(--muted)">
+                Коли 10+ людей на проекті — важливо, щоб зміни одного не ламали
+                код іншого. Абстракції рятують.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- TESTS -->
+    <section class="section" id="tests">
+      <div class="section-label">Практика</div>
+      <h2 class="section-title">Тест на «вошивість»<br />вашого коду</h2>
+
+      <div class="tests-grid">
+        <div class="test-card" style="--tc-clr: #00d4ff">
+          <div class="test-num">1</div>
+          <div class="test-tag">Тест SRP</div>
+          <div class="test-question">
+            Чи можу я описати, що робить цей хук одним реченням — без сполучника
+            «та»?
+          </div>
+          <div class="test-hint">
+            <span>Якщо ні</span> — діліть на менші частини.
+          </div>
+        </div>
+        <div class="test-card" style="--tc-clr: #7c3aed">
+          <div class="test-num">2</div>
+          <div class="test-tag">Тест KISS</div>
+          <div class="test-question">
+            Чи зрозуміє цей код стажер через 15 хвилин без моїх пояснень?
+          </div>
+          <div class="test-hint">
+            <span>Якщо ні</span> — спрощуйте або документуйте.
+          </div>
+        </div>
+        <div class="test-card" style="--tc-clr: #f59e0b">
+          <div class="test-num">3</div>
+          <div class="test-tag">Тест YAGNI</div>
+          <div class="test-question">
+            Чи використовую я цей generic тип або enum прямо зараз, чи це «про
+            всяк випадок»?
+          </div>
+          <div class="test-hint">
+            <span>Якщо «про всяк»</span> — видаляйте сміливо.
+          </div>
+        </div>
+        <div class="test-card" style="--tc-clr: #ef4444">
+          <div class="test-num">4</div>
+          <div class="test-tag">Тест DIP</div>
+          <div class="test-question">
+            Якщо завтра ми замінимо Axios на React Query, скільки файлів
+            бізнес-логіки треба переписати?
+          </div>
+          <div class="test-hint">В ідеалі — <span>нуль</span>.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- COGNITIVE -->
+    <section class="section" id="cognitive">
+      <div class="section-label">Фінальний акорд</div>
+      <h2 class="section-title">Когнітивне<br />навантаження</h2>
+
+      <p
+        style="
+          color: var(--muted);
+          max-width: 640px;
+          margin-bottom: 3rem;
+          font-size: 1rem;
+        "
+      >
+        Головна мета всіх цих зусиль —
+        <strong style="color: var(--text)"
+          >зменшити когнітивне навантаження</strong
+        >. Програмування — це керування складністю.
+      </p>
+
+      <div class="cognitive-split">
+        <div class="cog-card bad">
+          <div class="cog-label">😵 Поганий код</div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            10 змінних одночасно в голові
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            5 станів, 3 API-запити в одному файлі
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            «Бог-хуки» що роблять все і нічого
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            Помилку шукаєш 5 годин
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            Страх змінювати — «як би не зламати»
+          </div>
+        </div>
+        <div class="cog-card good">
+          <div class="cog-label">😌 Хороший код (за SOLID)</div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            Маленька функція, одна річ
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            Мозок відпочиває при читанні
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            Кожен модуль — незалежна одиниця
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            Помилку знаходиш за 5 хвилин
+          </div>
+          <div class="cog-item">
+            <div class="cog-dot"></div>
+            Нова фіча — без страху зламати
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMELINE -->
+      <h3
+        style="
+          font-family: 'Unbounded', sans-serif;
+          font-size: 1.2rem;
+          font-weight: 700;
+          margin-top: 4rem;
+          margin-bottom: 0.5rem;
+        "
+      >
+        Золота порада
+      </h3>
+      <div class="timeline">
+        <div class="tl-item" style="--tl-color: #00d4ff">
+          <div class="tl-step">Крок 1</div>
+          <div class="tl-title">Зробіть так, щоб працювало</div>
+          <p class="tl-text">
+            Не думайте про архітектуру на самому початку. Ваша ціль — робочий
+            продукт.
+          </p>
+        </div>
+        <div class="tl-item" style="--tl-color: #7c3aed">
+          <div class="tl-step">Крок 2</div>
+          <div class="tl-title">Зробіть так, щоб було красиво</div>
+          <p class="tl-text">
+            Рефакторинг за SOLID. Коли код працює — час зробити його
+            підтримуваним.
+          </p>
+        </div>
+        <div class="tl-item" style="--tl-color: #f59e0b">
+          <div class="tl-step">Крок 3</div>
+          <div class="tl-title">Пам'ятайте про компроміси</div>
+          <p class="tl-text">
+            SOLID додає файлів. Але зменшує кількість багів у майбутньому. Це не
+            ціна — це інвестиція.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="divider"></div>
+    <footer class="footer">
+      <div class="footer-logo">Frontend Принципи</div>
+      <p class="footer-text">
+        Конспект • 2026<br />SOLID · DRY · KISS · YAGNI · React · TypeScript
+      </p>
+    </footer>
+
+    <!-- GLOBAL NAV -->
+    <nav class="gnav" id="gnav">
+      <a class="gnav-item" href="index.html" data-page="index">
+        <span class="gnav-icon">📖</span>
+        <span class="gnav-label">Гайд</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="quiz.html" data-page="quiz">
+        <span class="gnav-icon">🧩</span>
+        <span class="gnav-label">Квіз</span>
+      </a>
+      <a class="gnav-item" href="antipatterns.html" data-page="antipatterns">
+        <span class="gnav-icon">⚠️</span>
+        <span class="gnav-label">Антипатерни</span>
+      </a>
+      <a class="gnav-item" href="refactoring.html" data-page="refactoring">
+        <span class="gnav-icon">⚡</span>
+        <span class="gnav-label">Рефакторинг</span>
+      </a>
+      <a class="gnav-item" href="cheatsheet.html" data-page="cheatsheet">
+        <span class="gnav-icon">📋</span>
+        <span class="gnav-label">Шпаргалка</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="tracker.html" data-page="tracker">
+        <span class="gnav-prog"></span>
+        <span class="gnav-icon">📊</span>
+        <span class="gnav-label">Прогрес</span>
+      </a>
+    </nav>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
