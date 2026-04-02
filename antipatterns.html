@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Антипатерни — Frontend Принципи</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="antipatterns.css" />
+  </head>
+  <body data-current="antipatterns">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="shell">
+      <a href="index.html" class="back">
+        <svg
+          width="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M10 3L5 8l5 5" />
+        </svg>
+        Повернутись до гайду
+      </a>
+
+      <div class="page-hero">
+        <div class="eyebrow">Антипатерни</div>
+        <h1 class="page-title">Впізнай <em>свій код</em><br />і виправ його</h1>
+        <p class="page-desc">
+          6 класичних антипатернів у React/TypeScript — з поясненням, який
+          принцип порушено, і як це виправити.
+        </p>
+        <div class="read-time">
+          <span class="read-time-dot"></span><span id="read-time-val">—</span>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span style="font-weight: 600; color: var(--text)">РІВЕНЬ БОЛЮ:</span>
+        <div class="legend-item">
+          <div class="pain-dots">
+            <div class="pain-dot on"></div>
+            <div class="pain-dot"></div>
+            <div class="pain-dot"></div>
+          </div>
+          Неприємно
+        </div>
+        <div class="legend-item">
+          <div class="pain-dots">
+            <div class="pain-dot on"></div>
+            <div class="pain-dot on"></div>
+            <div class="pain-dot"></div>
+          </div>
+          Боляче
+        </div>
+        <div class="legend-item">
+          <div class="pain-dots">
+            <div class="pain-dot on"></div>
+            <div class="pain-dot on"></div>
+            <div class="pain-dot on"></div>
+          </div>
+          Критично
+        </div>
+      </div>
+
+      <div class="ap-grid">
+        <!-- 01 GOD COMPONENT -->
+        <div class="ap-card" style="--ap-color: #ef4444">
+          <div class="ap-topbar">
+            <div class="ap-meta">
+              <div class="ap-num">01</div>
+              <div class="ap-name">God Component</div>
+            </div>
+            <div class="ap-right">
+              <div class="violated">
+                <span class="vbadge" style="--vb-color: #00d4ff">SRP</span>
+                <span class="vbadge" style="--vb-color: #7c3aed">OCP</span>
+              </div>
+              <div class="pain">
+                БІЛЬ
+                <div class="pain-dots">
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot on"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-body">
+            <p class="ap-desc">
+              Компонент або хук, який <strong>знає все і робить все</strong>:
+              завантажує дані, валідує форму, відправляє аналітику, рендерить
+              UI. Будь-яка зміна в системі зачіпає цей файл.
+            </p>
+            <div class="recognize">
+              <span class="rec-tag">файл 500+ рядків</span>
+              <span class="rec-tag">10+ useState</span>
+              <span class="rec-tag">useEffect з 5 залежностями</span>
+              <span class="rec-tag">неможливо протестувати</span>
+            </div>
+            <div class="code-pair">
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label bad">❌ Антипатерн</div>
+                </div>
+                <div class="cb-body">
+                  <span class="kw">const</span>
+                  <span class="fn">Dashboard</span> = () => {
+                  <span class="cm">// 1. Стан користувача</span>
+                  <span class="kw">const</span> [user, setUser] =
+                  <span class="fn">useState</span>(<span class="kw">null</span
+                  >);
+                  <span class="cm">// 2. Стан форми</span>
+                  <span class="kw">const</span> [form, setForm] =
+                  <span class="fn">useState</span>({});
+                  <span class="cm">// 3. Модалка</span>
+                  <span class="kw">const</span> [modal, setModal] =
+                  <span class="fn">useState</span>(<span class="kw">false</span
+                  >);
+                  <span class="cm">// 4. Фільтри таблиці</span>
+                  <span class="kw">const</span> [filters, setFilters] =
+                  <span class="fn">useState</span>({});
+                  <span class="cm">// ... ще 8 useState</span>
+
+                  <span class="kw">const</span>
+                  <span class="fn">handleSubmit</span> = () => {
+                  <span class="cm">/* валідація + fetch + аналітика */</span>
+                  };
+
+                  <span class="kw">return</span> &lt;<span class="ty">div</span
+                  >&gt;<span class="cm">/* 200 рядків JSX */</span>&lt;/<span
+                    class="ty"
+                    >div</span
+                  >&gt;; };
+                </div>
+              </div>
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label good">✓ Рефакторинг</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm">// Кожен хук — одна відповідальність</span>
+                  <span class="kw">const</span>
+                  <span class="fn">useUser</span> = () => {
+                  <span class="cm">/*...*/</span> };
+                  <span class="kw">const</span>
+                  <span class="fn">useFilters</span> = () => {
+                  <span class="cm">/*...*/</span> };
+                  <span class="kw">const</span>
+                  <span class="fn">useUserForm</span> = () => {
+                  <span class="cm">/*...*/</span> };
+
+                  <span class="cm">// Кожен компонент — один обов'язок</span>
+                  <span class="kw">const</span>
+                  <span class="fn">UserTable</span> = () => {
+                  <span class="cm">/*...*/</span> };
+                  <span class="kw">const</span>
+                  <span class="fn">UserForm</span> = () => {
+                  <span class="cm">/*...*/</span> };
+                  <span class="kw">const</span>
+                  <span class="fn">UserModal</span> = () => {
+                  <span class="cm">/*...*/</span> };
+
+                  <span class="cm">// Оркестратор — тільки композиція</span>
+                  <span class="kw">const</span>
+                  <span class="fn">Dashboard</span> = () => ( &lt;<span
+                    class="ty"
+                    >div</span
+                  >&gt; &lt;<span class="ty">UserTable</span> /&gt; &lt;<span
+                    class="ty"
+                    >UserForm</span
+                  >
+                  /&gt; &lt;<span class="ty">UserModal</span> /&gt; &lt;/<span
+                    class="ty"
+                    >div</span
+                  >&gt; );
+                </div>
+              </div>
+            </div>
+            <div class="fix-note">
+              <div class="fix-note-icon">💡</div>
+              <div>
+                <strong>Правило:</strong> Якщо не можеш описати що робить
+                компонент одним реченням без «та» — ділити. Тест: чи можеш
+                написати unit-тест за 5 хвилин?
+              </div>
+            </div>
+          </div>
+          <div class="ap-footer">
+            <a href="index.html#solid" class="guide-link"
+              >Читати про SRP у гайді <span class="guide-link-arrow">→</span></a
+            >
+          </div>
+        </div>
+
+        <!-- 02 PROP DRILLING -->
+        <div class="ap-card" style="--ap-color: #f59e0b">
+          <div class="ap-topbar">
+            <div class="ap-meta">
+              <div class="ap-num">02</div>
+              <div class="ap-name">Prop Drilling Hell</div>
+            </div>
+            <div class="ap-right">
+              <div class="violated">
+                <span class="vbadge" style="--vb-color: #10b981">ISP</span>
+                <span class="vbadge" style="--vb-color: #00d4ff">SRP</span>
+              </div>
+              <div class="pain">
+                БІЛЬ
+                <div class="pain-dots">
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-body">
+            <p class="ap-desc">
+              Дані передаються через <strong>3+ рівні компонентів</strong>, де
+              проміжні навіть не використовують їх — лише пробрасовують далі.
+              Кожна зміна типу ламає весь ланцюжок.
+            </p>
+            <div class="recognize">
+              <span class="rec-tag">userId пробрасовується 4 рівні</span>
+              <span class="rec-tag">10+ пропсів в компоненті</span>
+              <span class="rec-tag">зміна типу — правиш 5 файлів</span>
+            </div>
+            <div class="code-pair">
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label bad">❌ Антипатерн</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm">// App → Page → Section → Widget</span>
+                  <span class="kw">const</span> <span class="fn">App</span> = ()
+                  => &lt;<span class="ty">Page</span> userId={userId}
+                  theme={theme} /&gt;;
+
+                  <span class="kw">const</span> <span class="fn">Page</span> =
+                  ({ userId, theme }) => &lt;<span class="ty">Section</span>
+                  userId={userId} theme={theme} /&gt;;
+                  <span class="cm">// Page не використовує userId!</span>
+
+                  <span class="kw">const</span>
+                  <span class="fn">Section</span> = ({ userId, theme }) =>
+                  &lt;<span class="ty">Widget</span> userId={userId}
+                  theme={theme} /&gt;;
+                  <span class="cm">// Section теж тільки пробрасовує</span>
+
+                  <span class="kw">const</span> <span class="fn">Widget</span> =
+                  ({ userId }) => &lt;<span class="ty">div</span
+                  >&gt;{userId}&lt;/<span class="ty">div</span>&gt;;
+                </div>
+              </div>
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label good">✓ Рефакторинг</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm">// Context або Zustand</span>
+                  <span class="kw">const</span> <span class="ty">AppCtx</span> =
+                  <span class="fn">createContext</span>(<span class="kw"
+                    >null</span
+                  >);
+
+                  <span class="kw">const</span> <span class="fn">App</span> = ()
+                  => ( &lt;<span class="ty">AppCtx.Provider</span> value={{
+                  userId, theme }}&gt; &lt;<span class="ty">Page</span> /&gt;
+                  &lt;/<span class="ty">AppCtx.Provider</span>&gt; );
+
+                  <span class="cm"
+                    >// Проміжні — чисті, без зайвих пропсів</span
+                  >
+                  <span class="kw">const</span> <span class="fn">Page</span> =
+                  () => &lt;<span class="ty">Section</span> /&gt;;
+                  <span class="kw">const</span>
+                  <span class="fn">Section</span> = () => &lt;<span class="ty"
+                    >Widget</span
+                  >
+                  /&gt;;
+
+                  <span class="kw">const</span> <span class="fn">Widget</span> =
+                  () => { <span class="kw">const</span> { userId } =
+                  <span class="fn">useContext</span>(<span class="ty"
+                    >AppCtx</span
+                  >); <span class="kw">return</span> &lt;<span class="ty"
+                    >div</span
+                  >&gt;{userId}&lt;/<span class="ty">div</span>&gt;; };
+                </div>
+              </div>
+            </div>
+            <div class="fix-note">
+              <div class="fix-note-icon">💡</div>
+              <div>
+                <strong>Правило:</strong> Якщо проп проходить більше 2 рівнів і
+                проміжні не використовують — час для Context, Zustand або React
+                Query. Глобальне — глобально, локальне — локально.
+              </div>
+            </div>
+          </div>
+          <div class="ap-footer">
+            <a href="index.html#solid" class="guide-link"
+              >Читати про ISP у гайді <span class="guide-link-arrow">→</span></a
+            >
+          </div>
+        </div>
+
+        <!-- 03 MAGIC NUMBERS -->
+        <div class="ap-card" style="--ap-color: #7c3aed">
+          <div class="ap-topbar">
+            <div class="ap-meta">
+              <div class="ap-num">03</div>
+              <div class="ap-name">Magic Numbers</div>
+            </div>
+            <div class="ap-right">
+              <div class="violated">
+                <span class="vbadge" style="--vb-color: #00d4ff">DRY</span>
+                <span class="vbadge" style="--vb-color: #f59e0b">KISS</span>
+              </div>
+              <div class="pain">
+                БІЛЬ
+                <div class="pain-dots">
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot"></div>
+                  <div class="pain-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-body">
+            <p class="ap-desc">
+              Числа та рядки захардкоджені прямо в логіці без пояснення.
+              <strong>Що означає 86400000? Або 0.15?</strong> Через місяць
+              навіть автор не знатиме. При зміні — шукаєш по всій кодовій базі.
+            </p>
+            <div class="recognize">
+              <span class="rec-tag">числа без назви</span>
+              <span class="rec-tag">одне число в різних файлах</span>
+              <span class="rec-tag">рядки-константи в JSX</span>
+              <span class="rec-tag">магічні таймаути</span>
+            </div>
+            <div class="code-pair">
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label bad">❌ Антипатерн</div>
+                </div>
+                <div class="cb-body">
+                  <span class="kw">const</span>
+                  <span class="fn">getDiscount</span> = (price) => price *
+                  <span class="num">0.15</span>;
+                  <span class="cm">// Що таке 0.15?</span>
+
+                  <span class="kw">const</span>
+                  <span class="fn">isSessionValid</span> = (ts) => Date.now() -
+                  ts &lt; <span class="num">86400000</span>;
+                  <span class="cm">// ???</span>
+
+                  <span class="fn">setTimeout</span>(callback,
+                  <span class="num">3000</span>);
+                  <span class="cm">// 3000 — дизайн? сервер? анімація?</span>
+
+                  <span class="kw">if</span> (items.length >
+                  <span class="num">10</span>) {
+                  <span class="fn">showPagination</span>(); }
+                </div>
+              </div>
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label good">✓ Рефакторинг</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm"
+                    >// constants.ts — одне місце, зрозумілі імена</span
+                  >
+                  <span class="kw">const</span> DISCOUNT_RATE =
+                  <span class="num">0.15</span>;
+                  <span class="kw">const</span> SESSION_TTL_MS =
+                  <span class="num">24</span> * <span class="num">60</span> *
+                  <span class="num">60</span> * <span class="num">1000</span>;
+                  <span class="kw">const</span> TOAST_DURATION_MS =
+                  <span class="num">3000</span>;
+                  <span class="kw">const</span> PAGE_SIZE =
+                  <span class="num">10</span>;
+
+                  <span class="kw">const</span>
+                  <span class="fn">getDiscount</span> = (price) => price *
+                  DISCOUNT_RATE;
+
+                  <span class="kw">const</span>
+                  <span class="fn">isSessionValid</span> = (ts) => Date.now() -
+                  ts &lt; SESSION_TTL_MS;
+
+                  <span class="fn">setTimeout</span>(callback,
+                  TOAST_DURATION_MS); <span class="kw">if</span> (items.length >
+                  PAGE_SIZE) <span class="fn">showPagination</span>();
+                </div>
+              </div>
+            </div>
+            <div class="fix-note">
+              <div class="fix-note-icon">💡</div>
+              <div>
+                <strong>Правило:</strong> Кожне число і рядок-константа мають
+                жити у <code>constants.ts</code> з іменем, яке пояснює
+                <em>навіщо</em>, а не <em>що</em>. Змінилось бізнес-правило —
+                міняєш в одному місці.
+              </div>
+            </div>
+          </div>
+          <div class="ap-footer">
+            <a href="index.html#trio" class="guide-link"
+              >Читати про DRY у гайді <span class="guide-link-arrow">→</span></a
+            >
+          </div>
+        </div>
+
+        <!-- 04 SHOTGUN SURGERY -->
+        <div class="ap-card" style="--ap-color: #10b981">
+          <div class="ap-topbar">
+            <div class="ap-meta">
+              <div class="ap-num">04</div>
+              <div class="ap-name">Shotgun Surgery</div>
+            </div>
+            <div class="ap-right">
+              <div class="violated">
+                <span class="vbadge" style="--vb-color: #7c3aed">OCP</span>
+                <span class="vbadge" style="--vb-color: #00d4ff">DRY</span>
+              </div>
+              <div class="pain">
+                БІЛЬ
+                <div class="pain-dots">
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot on"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-body">
+            <p class="ap-desc">
+              Одна зміна у вимогах вимагає правок у
+              <strong>десятках файлів одночасно</strong>. Дробовик по кодовій
+              базі — легко пропустити один файл і отримати баг у продакшені.
+            </p>
+            <div class="recognize">
+              <span class="rec-tag">один PR — 20+ файлів</span>
+              <span class="rec-tag">однакові перевірки скрізь</span>
+              <span class="rec-tag">типи продубльовані</span>
+              <span class="rec-tag">легко щось пропустити</span>
+            </div>
+            <div class="code-pair">
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label bad">❌ Антипатерн</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm">// profile.tsx</span>
+                  <span class="kw">const</span> name = `${user.firstName}
+                  ${user.lastName}`;
+
+                  <span class="cm">// header.tsx</span>
+                  <span class="kw">const</span> name = `${user.firstName}
+                  ${user.lastName}`;
+
+                  <span class="cm">// sidebar.tsx</span>
+                  <span class="kw">const</span> name = `${user.firstName}
+                  ${user.lastName}`;
+
+                  <span class="cm">// email-preview.tsx</span>
+                  <span class="kw">const</span> name = `${user.firstName}
+                  ${user.lastName}`;
+
+                  <span class="cm">// Зміна формату = 10+ файлів!</span>
+                </div>
+              </div>
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label good">✓ Рефакторинг</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm"
+                    >// user.utils.ts — єдине джерело правди</span
+                  >
+                  <span class="kw">export const</span>
+                  <span class="fn">getFullName</span> = ( user:
+                  <span class="ty">Pick</span>&lt;<span class="ty">User</span>,
+                  <span class="str">'firstName'</span> |
+                  <span class="str">'lastName'</span>&gt; ) =>
+                  `${user.firstName} ${user.lastName}`;
+
+                  <span class="cm">// profile.tsx</span>
+                  <span class="kw">import</span> { getFullName }
+                  <span class="kw">from</span>
+                  <span class="str">'@/user.utils'</span>;
+                  <span class="kw">const</span> name =
+                  <span class="fn">getFullName</span>(user);
+
+                  <span class="cm">// header, sidebar, email — теж саме</span>
+                  <span class="cm">// Зміна формату = ОДИН файл</span>
+                </div>
+              </div>
+            </div>
+            <div class="fix-note">
+              <div class="fix-note-icon">💡</div>
+              <div>
+                <strong>Правило:</strong> Якщо для однієї фічі торкаєшся більше
+                5 файлів у різних модулях — сигнал рефакторингу. Знайди спільну
+                абстракцію і виноси в util/helper.
+              </div>
+            </div>
+          </div>
+          <div class="ap-footer">
+            <a href="index.html#solid" class="guide-link"
+              >Читати про OCP у гайді <span class="guide-link-arrow">→</span></a
+            >
+          </div>
+        </div>
+
+        <!-- 05 DEAD CODE -->
+        <div class="ap-card" style="--ap-color: #f472b6">
+          <div class="ap-topbar">
+            <div class="ap-meta">
+              <div class="ap-num">05</div>
+              <div class="ap-name">Dead Code</div>
+            </div>
+            <div class="ap-right">
+              <div class="violated">
+                <span class="vbadge" style="--vb-color: #f59e0b">YAGNI</span>
+                <span class="vbadge" style="--vb-color: #f59e0b">KISS</span>
+              </div>
+              <div class="pain">
+                БІЛЬ
+                <div class="pain-dots">
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot"></div>
+                  <div class="pain-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-body">
+            <p class="ap-desc">
+              Код, який більше ніколи не виконається:
+              <strong
+                >закоментовані блоки, застарілі feature flags, функції що ніхто
+                не кличе</strong
+              >. Засмічує кодову базу і заважає розумінню.
+            </p>
+            <div class="recognize">
+              <span class="rec-tag">великі блоки в коментарях</span>
+              <span class="rec-tag">isFeatureEnabled завжди true</span>
+              <span class="rec-tag">unused import</span>
+              <span class="rec-tag">пропси що ніхто не передає</span>
+            </div>
+            <div class="code-pair">
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label bad">❌ Антипатерн</div>
+                </div>
+                <div class="cb-body">
+                  <span class="kw">import</span> { oldHelper }
+                  <span class="kw">from</span>
+                  <span class="str">'./deprecated'</span>;
+                  <span class="cm"
+                    >// import { newHelper } from './utils';</span
+                  >
+
+                  <span class="kw">const</span> <span class="fn">Button</span> =
+                  ({ label, onClick,
+                  <span class="cm">// onHover, // "може знадобиться"</span>
+                  <span class="cm">// onFocus, // додав на майбутнє</span>
+                  variant = <span class="str">'primary'</span>
+                  }) => {
+                  <span class="cm"
+                    >// const old = () => { /* старий код */ };</span
+                  >
+
+                  <span class="kw">return</span> &lt;<span class="ty"
+                    >button</span
+                  >&gt;{label}&lt;/<span class="ty">button</span>&gt;; };
+                </div>
+              </div>
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label good">✓ Рефакторинг</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm"
+                    >// Тільки те, що реально використовується</span
+                  >
+                  <span class="kw">import</span> { newHelper }
+                  <span class="kw">from</span>
+                  <span class="str">'./utils'</span>;
+
+                  <span class="kw">const</span> <span class="fn">Button</span> =
+                  ({ label, onClick, variant =
+                  <span class="str">'primary'</span> }:
+                  <span class="ty">ButtonProps</span>) => ( &lt;<span class="ty"
+                    >button</span
+                  >
+                  onClick={onClick} className={variant} &gt; {label} &lt;/<span
+                    class="ty"
+                    >button</span
+                  >&gt; );
+
+                  <span class="cm">// Git зберігає все — видаляй сміливо!</span>
+                </div>
+              </div>
+            </div>
+            <div class="fix-note">
+              <div class="fix-note-icon">💡</div>
+              <div>
+                <strong>Правило:</strong>
+                <strong>Git зберігає всю історію.</strong> Видалений код
+                відновиш за 10 секунд. Мертвий код — шум, який знижує
+                читабельність і довіру. Видаляй без жалю.
+              </div>
+            </div>
+          </div>
+          <div class="ap-footer">
+            <a href="index.html#trio" class="guide-link"
+              >Читати про YAGNI у гайді
+              <span class="guide-link-arrow">→</span></a
+            >
+          </div>
+        </div>
+
+        <!-- 06 PREMATURE OPTIMIZATION -->
+        <div class="ap-card" style="--ap-color: #00d4ff">
+          <div class="ap-topbar">
+            <div class="ap-meta">
+              <div class="ap-num">06</div>
+              <div class="ap-name">Premature Optimization</div>
+            </div>
+            <div class="ap-right">
+              <div class="violated">
+                <span class="vbadge" style="--vb-color: #f59e0b">YAGNI</span>
+                <span class="vbadge" style="--vb-color: #f59e0b">KISS</span>
+              </div>
+              <div class="pain">
+                БІЛЬ
+                <div class="pain-dots">
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot on"></div>
+                  <div class="pain-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-body">
+            <p class="ap-desc">
+              Оптимізація до того, як виміряно проблему.
+              <strong
+                >useMemo/useCallback скрізь, складні алгоритми замість
+                простих</strong
+              >
+              — ускладнює код і часто уповільнює (React має overhead на
+              мемоізацію).
+            </p>
+            <div class="recognize">
+              <span class="rec-tag">useMemo для простого об'єкта</span>
+              <span class="rec-tag">useCallback без потреби</span>
+              <span class="rec-tag">віртуалізація списку з 20 елементів</span>
+              <span class="rec-tag">кеш для рідкісного запиту</span>
+            </div>
+            <div class="code-pair">
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label bad">❌ Антипатерн</div>
+                </div>
+                <div class="cb-body">
+                  <span class="kw">const</span>
+                  <span class="fn">UserList</span> = ({ users }) => {
+                  <span class="cm">// useMemo для статичного сортування</span>
+                  <span class="kw">const</span> sorted =
+                  <span class="fn">useMemo</span>( () => [...users].<span
+                    class="fn"
+                    >sort</span
+                  >( (a, b) => a.name.<span class="fn">localeCompare</span
+                  >(b.name) ), [users] );
+
+                  <span class="cm">// useCallback без реальної причини</span>
+                  <span class="kw">const</span>
+                  <span class="fn">handleClick</span> =
+                  <span class="fn">useCallback</span>( (id) =>
+                  <span class="fn">setSelected</span>(id), [setSelected] );
+
+                  <span class="cm"
+                    >// Список ніколи не буде > 50 елементів</span
+                  >
+                  <span class="kw">return</span> &lt;<span class="ty"
+                    >VirtualList</span
+                  >
+                  items={sorted} /&gt;; };
+                </div>
+              </div>
+              <div class="codeblock">
+                <div class="cb-header">
+                  <div class="cb-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="cb-label good">✓ Рефакторинг</div>
+                </div>
+                <div class="cb-body">
+                  <span class="cm">// Спочатку просто. Потім — профайлер.</span>
+                  <span class="kw">const</span>
+                  <span class="fn">UserList</span> = ({ users }) => {
+                  <span class="kw">const</span> sorted = [...users].<span
+                    class="fn"
+                    >sort</span
+                  >( (a, b) => a.name.<span class="fn">localeCompare</span
+                  >(b.name) );
+
+                  <span class="kw">return</span> ( &lt;<span class="ty">ul</span
+                  >&gt; {sorted.<span class="fn">map</span>(user => ( &lt;<span
+                    class="ty"
+                    >li</span
+                  >
+                  key={user.id} onClick={() =>
+                  <span class="fn">setSelected</span>(user.id)} &gt; {user.name}
+                  &lt;/<span class="ty">li</span>&gt; ))} &lt;/<span class="ty"
+                    >ul</span
+                  >&gt; ); };
+                  <span class="cm">// Є проблема? Міряй → тоді оптимізуй</span>
+                </div>
+              </div>
+            </div>
+            <div class="fix-note">
+              <div class="fix-note-icon">💡</div>
+              <div>
+                <strong>Правило Кнута:</strong> «Передчасна оптимізація — корінь
+                усього зла». Спочатку <strong>виміряй</strong> (React DevTools
+                Profiler), тоді оптимізуй. <code>useMemo</code> виправданий лише
+                при виміряній проблемі.
+              </div>
+            </div>
+          </div>
+          <div class="ap-footer">
+            <a href="index.html#trio" class="guide-link"
+              >Читати про KISS у гайді
+              <span class="guide-link-arrow">→</span></a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="summary">
+        <div class="summary-title">🧭 Швидкі правила для Code Review</div>
+        <div class="rule-grid">
+          <div class="rule-card">
+            <div class="rule-q">Файл 200+ рядків?</div>
+            <div class="rule-a">
+              <strong>Ймовірно SRP</strong> — шукай де поділити відповідальність
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-q">Проп іде 3+ рівні?</div>
+            <div class="rule-a">
+              <strong>Ймовірно ISP</strong> — час для Context або
+              стейт-менеджера
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-q">Число без назви в коді?</div>
+            <div class="rule-a">
+              <strong>Magic Number</strong> — виноси в константу з іменем
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-q">Однакова логіка в 3+ місцях?</div>
+            <div class="rule-a">
+              <strong>DRY</strong> — виноси в утиліту або хук
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-q">PR торкається 10+ файлів?</div>
+            <div class="rule-a">
+              <strong>Shotgun Surgery</strong> — знайди спільну абстракцію
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-q">useMemo/useCallback скрізь?</div>
+            <div class="rule-a">
+              <strong>Premature Opt.</strong> — є реальний профайлер?
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL NAV -->
+    <nav class="gnav" id="gnav">
+      <a class="gnav-item" href="index.html" data-page="index">
+        <span class="gnav-icon">📖</span>
+        <span class="gnav-label">Гайд</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="quiz.html" data-page="quiz">
+        <span class="gnav-icon">🧩</span>
+        <span class="gnav-label">Квіз</span>
+      </a>
+      <a class="gnav-item" href="antipatterns.html" data-page="antipatterns">
+        <span class="gnav-icon">⚠️</span>
+        <span class="gnav-label">Антипатерни</span>
+      </a>
+      <a class="gnav-item" href="refactoring.html" data-page="refactoring">
+        <span class="gnav-icon">⚡</span>
+        <span class="gnav-label">Рефакторинг</span>
+      </a>
+      <a class="gnav-item" href="cheatsheet.html" data-page="cheatsheet">
+        <span class="gnav-icon">📋</span>
+        <span class="gnav-label">Шпаргалка</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="tracker.html" data-page="tracker">
+        <span class="gnav-prog"></span>
+        <span class="gnav-icon">📊</span>
+        <span class="gnav-label">Прогрес</span>
+      </a>
+    </nav>
+    <script type="module" src="./antipatterns.js"></script>
+  </body>
+</html>
