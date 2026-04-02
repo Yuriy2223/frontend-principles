@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Квіз — Frontend Принципи</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-current="quiz">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <div class="shell">
+      <a href="index.html" class="back">
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M10 3L5 8l5 5" />
+        </svg>
+        Повернутись до гайду
+      </a>
+
+      <!-- Header -->
+      <div class="quiz-header" id="quiz-header">
+        <div class="quiz-eyebrow">Інтерактивний тест</div>
+        <h1 class="quiz-title">Вгадай<br /><span>принцип</span></h1>
+        <p class="quiz-desc">
+          10 запитань з реальними кодовими прикладами. Знайди порушення —
+          отримай пояснення.
+        </p>
+        <div class="read-time">
+          <span class="read-time-dot"></span><span id="read-time-val">—</span>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-wrap" id="progress-wrap">
+        <div class="progress-meta">
+          <span class="progress-label">ПРОГРЕС</span>
+          <span class="progress-frac" id="progress-frac">1 / 10</span>
+        </div>
+        <div class="progress-track">
+          <div
+            class="progress-fill"
+            id="progress-fill"
+            style="width: 10%"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Question area -->
+      <div id="question-area"></div>
+
+      <!-- Results -->
+      <div class="results" id="results"></div>
+    </div>
+
+    <!-- GLOBAL NAV -->
+    <nav class="gnav" id="gnav">
+      <a class="gnav-item" href="index.html" data-page="index">
+        <span class="gnav-icon">📖</span>
+        <span class="gnav-label">Гайд</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="quiz.html" data-page="quiz">
+        <span class="gnav-icon">🧩</span>
+        <span class="gnav-label">Квіз</span>
+      </a>
+      <a class="gnav-item" href="antipatterns.html" data-page="antipatterns">
+        <span class="gnav-icon">⚠️</span>
+        <span class="gnav-label">Антипатерни</span>
+      </a>
+      <a class="gnav-item" href="refactoring.html" data-page="refactoring">
+        <span class="gnav-icon">⚡</span>
+        <span class="gnav-label">Рефакторинг</span>
+      </a>
+      <a class="gnav-item" href="cheatsheet.html" data-page="cheatsheet">
+        <span class="gnav-icon">📋</span>
+        <span class="gnav-label">Шпаргалка</span>
+      </a>
+      <div class="gnav-sep"></div>
+      <a class="gnav-item" href="tracker.html" data-page="tracker">
+        <span class="gnav-prog"></span>
+        <span class="gnav-icon">📊</span>
+        <span class="gnav-label">Прогрес</span>
+      </a>
+    </nav>
+  </body>
+</html>
